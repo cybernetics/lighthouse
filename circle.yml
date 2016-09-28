@@ -18,6 +18,5 @@ test:
     - npm run lint
     - npm run unit
     - npm run closure
-    - killall chrome
     - npm run smoke
     - cd lighthouse-extension && gulp build
