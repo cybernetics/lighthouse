@@ -18,6 +18,7 @@
 
 const NetworkManager = require('./web-inspector').NetworkManager;
 const EventEmitter = require('events').EventEmitter;
+const log = require('../lib/log.js');
 
 class NetworkRecorder extends EventEmitter {
   constructor(recordArray) {
@@ -26,10 +27,36 @@ class NetworkRecorder extends EventEmitter {
     this._records = recordArray;
     this.networkManager = NetworkManager.createWithFakeTarget();
 
-    // TODO(bckenny): loadingFailed calls are not recorded in REQUEST_FINISHED.
+    this.startedRequestCount = 0;
+    this.finishedRequestCount = 0;
+    this.idleState = true;
+
+    this.networkManager.addEventListener(this.EventTypes.RequestStarted, _ => {
+      this.startedRequestCount++;
+
+      const activeCount = this.startedRequestCount - this.finishedRequestCount;
+      log.verbose('NetworkRecorder', `Request started. ${activeCount} requests in progress` +
+          ` (${this.startedRequestCount} started and ${this.finishedRequestCount} finished).`);
+
+      if (this.idleState) {
+        this.idleState = false;
+        this.emit('networkbusy');
+      }
+    });
+
     this.networkManager.addEventListener(this.EventTypes.RequestFinished, request => {
+      this.finishedRequestCount++;
       this._records.push(request.data);
       this.emit('requestloaded', request.data);
+
+      const activeCount = this.startedRequestCount - this.finishedRequestCount;
+      log.verbose('NetworkRecorder', `Request finished. ${activeCount} requests in progress` +
+          ` (${this.startedRequestCount} started and ${this.finishedRequestCount} finished).`);
+
+      if (this.isIdle() && !this.idleState) {
+        this.idleState = true;
+        this.emit('networkidle');
+      }
     });
 
     this.onRequestWillBeSent = this.onRequestWillBeSent.bind(this);
@@ -43,6 +70,10 @@ class NetworkRecorder extends EventEmitter {
 
   get EventTypes() {
     return NetworkManager.EventTypes;
+  }
+
+  isIdle() {
+    return this.startedRequestCount - this.finishedRequestCount === 0;
   }
 
   // There are a few differences between the debugging protocol naming and
