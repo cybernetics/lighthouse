@@ -3,7 +3,7 @@ machine:
     version: 4.4
   environment:
     LIGHTHOUSE_CHROMIUM_PATH: $(pwd)/lighthouse/chrome-linux/chrome
-    __node_harmony: $(if [[ $(node -v) =~ ^v4.* ]]; then echo "--harmony"; fi)
+    __node_harmony: $(if [[ $(node -v) =~ ^v4.* ]]; then echo --harmony; fi)
 dependencies:
    cache_directories:
      - node_modules
