@@ -10,7 +10,6 @@ dependencies:
   pre:
     - npm --prefix ./lighthouse-extension install ./lighthouse-extension
     - export LIGHTHOUSE_CHROMIUM_PATH="$(pwd)/chrome-linux/chrome"
-    - "Xvfb :99 -ac 2>/dev/null"
     - ./lighthouse-core/scripts/download-chrome.sh
 test:
   override:
