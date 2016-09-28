@@ -9,9 +9,8 @@ dependencies:
 dependencies:
   pre:
     - npm --prefix ./lighthouse-extension install ./lighthouse-extension
-    - export DISPLAY=:99.0
     - export LIGHTHOUSE_CHROMIUM_PATH="$(pwd)/chrome-linux/chrome"
-    - sh -e /etc/init.d/xvfb start
+    - "Xvfb :99 -ac 2>/dev/null"
     - ./lighthouse-core/scripts/download-chrome.sh
 test:
   override:
@@ -19,6 +18,5 @@ test:
     - npm run lint
     - npm run unit
     - npm run closure
-    - npm run coveralls
     - npm run smoke
     - cd lighthouse-extension && gulp build
