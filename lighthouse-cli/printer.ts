@@ -19,8 +19,8 @@
 
 'use strict';
 
-type Mode = 'pretty' | 'json' | 'html';
-interface Results {
+export type Mode = 'pretty' | 'json' | 'html';
+export interface Results {
   url: string;
   aggregations: any[];
   audits: Object;
