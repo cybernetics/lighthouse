@@ -19,7 +19,7 @@
 
 'use strict';
 
-const environment = require('../lighthouse-core/lib/environment.js');
+const environment = require('../../lighthouse-core/lib/environment.js');
 if (!environment.checkNodeCompatibility()) {
   console.warn('Compatibility error', 'Lighthouse requires node 5+ or 4 with --harmony');
   process.exit(1);
@@ -28,11 +28,11 @@ if (!environment.checkNodeCompatibility()) {
 const path = require('path');
 const yargs = require('yargs');
 import * as Printer from './printer';
-const lighthouse = require('../lighthouse-core');
-const assetSaver = require('../lighthouse-core/lib/asset-saver.js');
+const lighthouse = require('../../lighthouse-core');
+const assetSaver = require('../../lighthouse-core/lib/asset-saver.js');
 import {ChromeLauncher} from './chrome-launcher';
 
-const perfOnlyConfig = require('../lighthouse-core/config/perf.json');
+const perfOnlyConfig = require('../../lighthouse-core/config/perf.json');
 
 const cli = yargs
   .help('help')
@@ -192,7 +192,7 @@ function lighthouseRun(addresses) {
     .then(results => {
       if (outputMode !== 'html') {
         const filename = './' + assetSaver.getFilenamePrefix({url: address}) + '.html';
-        Printer.write(results, 'html', filename);
+        Printer.write(results, 'html', filename)
       }
 
       return lighthouseRun(addresses);

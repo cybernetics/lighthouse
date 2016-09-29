@@ -27,9 +27,9 @@ interface Results {
 };
 
 const fs = require('fs');
-const ReportGenerator = require('../lighthouse-core/report/report-generator');
-const Formatter = require('../lighthouse-core/formatters/formatter');
-const log = require('../lighthouse-core/lib/log');
+const ReportGenerator = require('../../lighthouse-core/report/report-generator');
+const Formatter = require('../../lighthouse-core/formatters/formatter');
+const log = require('../../lighthouse-core/lib/log');
 
 /**
  * An enumeration of acceptable output modes:

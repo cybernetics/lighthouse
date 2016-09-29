@@ -100,7 +100,6 @@ class ChromeLauncher {
     return Promise.resolve()
       .then(() => {
         const installations = chromeFinder[process.platform]();
-
         if (installations.length < 1) {
           return Promise.reject(new Error('No Chrome Installations Found'));
         } else if (installations.length === 1 || this.autoSelectChrome) {
