@@ -16,7 +16,7 @@
 
 'use strict';
 
-const Printer = require('../../out/printer.js');
+const Printer = require('../../js/printer.js');
 const assert = require('assert');
 const fs = require('fs');
 const sampleResults = require('../fixtures/sample.json');
